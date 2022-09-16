@@ -16,7 +16,7 @@ function LoginTeacher() {
   const [showTeacher, setShowTeacher] = useState(true);
   const paperStyle = {
     padding: 20,
-    height: "70vh",
+    height: "60vh",
     width: 280,
     margin: "20px auto",
   };
