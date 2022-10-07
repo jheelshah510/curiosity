@@ -3,6 +3,9 @@ import Login from "./pages/Login";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import SignUp from "./pages/SignUp";
 import LoginTeacher from "./pages/LoginTeacher";
+import StudentHome from "./pages/StudentHome";
+import AskDoubt from "./pages/AskDoubt";
+import Search from "./components/Search";
 
 function App() {
   return (
@@ -17,6 +20,15 @@ function App() {
           </Route>
           <Route exact path="/loginTeacher">
             <LoginTeacher />
+          </Route>
+          <Route exact path="/stuhome">
+            <StudentHome />
+          </Route>
+          <Route exact path="/ask">
+            <AskDoubt />
+          </Route>
+          <Route exact path="/search">
+            <Search />
           </Route>
         </Switch>
       </BrowserRouter>
