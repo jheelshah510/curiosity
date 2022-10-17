@@ -27,6 +27,9 @@ function App() {
           <Route exact path="/ask">
             <AskDoubt />
           </Route>
+          <Route exact path="/search">
+            <Search />
+          </Route>
         </Switch>
       </BrowserRouter>
     </div>
