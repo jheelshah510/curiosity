@@ -16,6 +16,9 @@ function SignUp() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
 
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+
   function isValidEmail(email) {
     return validEmail.test(email);
   }
@@ -28,8 +31,12 @@ function SignUp() {
 
     setMessage(event.target.value);
   };
+  const handleSubmit = (e) => {
+    console.log(message, password, username);
+    e.preventDefault();
+  };
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <Grid>
         <Paper elevation={10} style={paperStyle}>
           <Grid align="center">
@@ -41,6 +48,8 @@ function SignUp() {
             fullWidth
             required
             sx={{ mb: 3 }}
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
           />
           <TextField
             label="Enter Password"
@@ -49,6 +58,8 @@ function SignUp() {
             fullWidth
             required
             sx={{ mb: 3 }}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
           <TextField
             label="Enter E-mail"
@@ -72,7 +83,7 @@ function SignUp() {
         </Paper>
       </Grid>{" "}
       {error && <Alert severity="error">Enter Charusat E-mail address</Alert>}
-    </div>
+    </form>
   );
 }
 
