@@ -4,6 +4,7 @@ import "../components/Login.component.css";
 import { Paper, TextField, Button, Alert } from "@mui/material";
 import { useState } from "react";
 import { validEmail } from "../components/Regex";
+import useSignUp from "../hooks/useSignup";
 
 function SignUp() {
   const paperStyle = {
@@ -18,6 +19,7 @@ function SignUp() {
 
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const { signUp, isPending, errorr } = useSignUp();
 
   function isValidEmail(email) {
     return validEmail.test(email);
@@ -32,8 +34,8 @@ function SignUp() {
     setMessage(event.target.value);
   };
   const handleSubmit = (e) => {
-    console.log(message, password, username);
     e.preventDefault();
+    signUp(message, password, username);
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -71,18 +73,36 @@ function SignUp() {
             required
             sx={{ mb: 5 }}
           />
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            style={btnstyle}
-            fullWidth
-          >
-            Sign Up
-          </Button>
+          {!isPending && (
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              style={btnstyle}
+              fullWidth
+            >
+              Sign Up
+            </Button>
+          )}
+          {isPending && (
+            <Button
+              color="primary"
+              variant="contained"
+              style={btnstyle}
+              fullWidth
+              disabled
+            >
+              Loading
+            </Button>
+          )}
         </Paper>
       </Grid>{" "}
       {error && <Alert severity="error">Enter Charusat E-mail address</Alert>}
+      {errorr && (
+        <Alert severity="warning">
+          <p>{errorr}</p>
+        </Alert>
+      )}
     </form>
   );
 }
