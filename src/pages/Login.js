@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import "../components/Login.component.css";
+import { useLogin } from "../hooks/useLogin";
 import {
   Paper,
   TextField,
@@ -10,12 +11,16 @@ import {
   Radio,
   FormControlLabel,
   RadioGroup,
+  Alert,
 } from "@mui/material";
 import LoginTeacher from "./LoginTeacher";
 
 function Login() {
   const [showteacher, setShowTeacher] = useState(false);
   const [showStudent, setShowStudent] = useState(true);
+  const { login, error, isPending } = useLogin();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const paperStyle = {
     padding: 20,
     height: "60vh",
@@ -33,9 +38,12 @@ function Login() {
     setShowStudent(false);
     setShowTeacher(true);
   };
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login(email, password);
+  };
   return (
-    <div id="hello">
+    <form id="hello" onSubmit={handleSubmit}>
       {showStudent && (
         <Grid>
           <Paper elevation={10} style={paperStyle}>
@@ -43,11 +51,13 @@ function Login() {
               <h2>Student Login</h2>
             </Grid>
             <TextField
-              label="Username"
-              placeholder="Enter username"
+              label="E-mail"
               fullWidth
               required
               sx={{ mb: 1 }}
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
             <TextField
               label="Password"
@@ -55,16 +65,32 @@ function Login() {
               type="password"
               fullWidth
               required
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              style={btnstyle}
-              fullWidth
-            >
-              Login
-            </Button>
+            {!isPending && (
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                style={btnstyle}
+                fullWidth
+              >
+                Login
+              </Button>
+            )}
+            {isPending && (
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                style={btnstyle}
+                fullWidth
+                disabled
+              >
+                Loading
+              </Button>
+            )}
             <Typography>
               {" "}
               Do you have an account ?<Link href="/signup">Sign Up</Link>
@@ -95,7 +121,12 @@ function Login() {
         </Grid>
       )}
       {showteacher && <LoginTeacher showteacher={showteacher} />}
-    </div>
+      {error && (
+        <Alert severity="error">
+          <p>{error}</p>
+        </Alert>
+      )}
+    </form>
   );
 }
 

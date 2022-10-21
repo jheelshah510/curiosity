@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Login";
 import Grid from "@mui/material/Grid";
 import "../components/Login.component.css";
+import { useLogin } from "../hooks/useLogin";
 import {
   Paper,
   TextField,
@@ -9,11 +10,16 @@ import {
   Radio,
   FormControlLabel,
   RadioGroup,
+  Alert,
 } from "@mui/material";
 import Login from "./Login";
 function LoginTeacher() {
   const [showStudent, setShowStudent] = useState(false);
   const [showTeacher, setShowTeacher] = useState(true);
+  const { login, error, isPending } = useLogin();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const paperStyle = {
     padding: 20,
     height: "60vh",
@@ -29,8 +35,12 @@ function LoginTeacher() {
     setShowTeacher(true);
     setShowStudent(false);
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login(email, password);
+  };
   return (
-    <div id="hello">
+    <form id="hello" onSubmit={handleSubmit}>
       {showTeacher && (
         <Grid>
           <Paper elevation={10} style={paperStyle}>
@@ -38,11 +48,13 @@ function LoginTeacher() {
               <h2>Teacher Login</h2>
             </Grid>
             <TextField
-              label="Username"
-              placeholder="Enter username"
+              label="E-mail"
               fullWidth
               required
               sx={{ mb: 1 }}
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
             <TextField
               label="Password"
@@ -50,16 +62,32 @@ function LoginTeacher() {
               type="password"
               fullWidth
               required
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              style={btnstyle}
-              fullWidth
-            >
-              Login
-            </Button>
+            {!isPending && (
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                style={btnstyle}
+                fullWidth
+              >
+                Login
+              </Button>
+            )}
+            {isPending && (
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                style={btnstyle}
+                fullWidth
+                disabled
+              >
+                Loading
+              </Button>
+            )}
             <RadioGroup defaultValue="teacher">
               <FormControlLabel
                 value="student"
@@ -80,7 +108,12 @@ function LoginTeacher() {
         </Grid>
       )}
       {showStudent && <Login />}
-    </div>
+      {error && (
+        <Alert severity="error">
+          <p>{error}</p>
+        </Alert>
+      )}
+    </form>
   );
 }
 
