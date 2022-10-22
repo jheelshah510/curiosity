@@ -1,7 +1,7 @@
 import React from "react";
 import { AppBar, Badge, Button, Toolbar } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-// import Picture1 from "../misc/Picture1.png";
+import logo from "../misc/logo.PNG";
 import "./Navbar.css";
 import { useLogout } from "../hooks/useLogut";
 
@@ -10,19 +10,28 @@ const Navbar = () => {
 
   return (
     <div>
-      <AppBar
-        style={{ background: "white" }}
-        position="static"
-        sx={{ width: "100%" }}
-      >
-        <Toolbar variant="regular">
-          {/* <img src={Picture1} alt="A" className="picture" /> */}
-          <Button sx={{ marginLeft: 175 }}>
+      <AppBar color="primary" sx={{ width: "100%", height: "75px" }}>
+        <Toolbar sx={{ paddingBottom: "15px", paddingTop: "4px" }}>
+          <img
+            src={logo}
+            alt="A"
+            style={{
+              height: "30px",
+              width: "40px",
+            }}
+          />
+          <div className="name">Curiosity</div>
+          <Button sx={{ marginLeft: 160 }}>
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon color="action" />
             </Badge>
           </Button>
-          <Button variant="text" onClick={logout}>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ marginLeft: "20px" }}
+            onClick={logout}
+          >
             Logout
           </Button>
         </Toolbar>

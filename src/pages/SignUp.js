@@ -5,8 +5,6 @@ import { Paper, TextField, Button, Alert } from "@mui/material";
 import { useState } from "react";
 import { validEmail } from "../components/Regex";
 import useSignUp from "../hooks/useSignup";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { Link } from "react-router-dom";
 
 function SignUp() {
   const paperStyle = {
@@ -21,7 +19,6 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const { signUp, isPending, errorr } = useSignUp();
-  const { user } = useAuthContext();
 
   function isValidEmail(email) {
     return validEmail.test(email);
@@ -106,12 +103,6 @@ function SignUp() {
       {errorr && (
         <Alert severity="warning">
           <p>{errorr}</p>
-        </Alert>
-      )}
-      {user && (
-        <Alert severity="success">
-          Congratulations your account has been created!!{" "}
-          <Link to="/">Click here to Login</Link>
         </Alert>
       )}
     </form>

@@ -6,6 +6,7 @@ import LoginTeacher from "./pages/LoginTeacher";
 import StudentHome from "./pages/StudentHome";
 import AskDoubt from "./pages/AskDoubt";
 import Search from "./components/Search";
+import Test from "./pages/Test/Test";
 import { useAuthContext } from "./hooks/useAuthContext";
 // import PrivateRoute from "./components/PrivateRoute";
 // import PublicRoute from "./components/PublicRoute";
@@ -39,6 +40,10 @@ function App() {
           </Route>
           <Route exact path="/search">
             <Search />
+          </Route>
+          <Route exact path="/test">
+            {/* {!user && <Redirect to="/" />} */}
+            <Test />
           </Route>
         </Switch>
       )}
