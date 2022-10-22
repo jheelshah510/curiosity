@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { projectAuth } from "../misc/firebase";
+import { database, projectAuth } from "../misc/firebase";
 import { useAuthContext } from "./useAuthContext";
 
 const useSignUp = () => {
@@ -22,6 +22,11 @@ const useSignUp = () => {
       }
 
       await res.user.updateProfile({ displayName });
+
+      database.ref(`/profiles/${res.user.uid}`).set({
+        name: res.user.displayName,
+        email: res.user.email,
+      });
 
       //dispatch login action
       dispatch({ type: "LOGIN", payload: res.user });

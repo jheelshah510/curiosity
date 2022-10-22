@@ -1,37 +1,47 @@
 import "./App.css";
 import Login from "./pages/Login";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import SignUp from "./pages/SignUp";
 import LoginTeacher from "./pages/LoginTeacher";
 import StudentHome from "./pages/StudentHome";
 import AskDoubt from "./pages/AskDoubt";
 import Search from "./components/Search";
+import { useAuthContext } from "./hooks/useAuthContext";
 // import PrivateRoute from "./components/PrivateRoute";
 // import PublicRoute from "./components/PublicRoute";
 
 function App() {
+  const { authIsReady, user } = useAuthContext();
   return (
     <div className="App">
-      <Switch>
-        <Route exact path="/">
-          <Login />
-        </Route>
-        <Route exact path="/signup">
-          <SignUp />
-        </Route>
-        <Route exact path="/loginTeacher">
-          <LoginTeacher />
-        </Route>
-        <Route exact path="/stuhome">
-          <StudentHome />
-        </Route>
-        <Route exact path="/ask">
-          <AskDoubt />
-        </Route>
-        <Route exact path="/search">
-          <Search />
-        </Route>
-      </Switch>
+      {authIsReady && (
+        <Switch>
+          <Route exact path="/">
+            {!user && <Login />}
+            {user && <Redirect to="/stuhome" />}
+          </Route>
+          <Route exact path="/signup">
+            <SignUp />
+
+            {user && <Redirect to="/stuhome" />}
+          </Route>
+          <Route exact path="/loginTeacher">
+            {!user && <LoginTeacher />}
+            {user && <Redirect to="/stuhome" />}
+          </Route>
+          <Route exact path="/stuhome">
+            {!user && <Redirect to="/" />}
+            {user && <StudentHome />}
+          </Route>
+          <Route exact path="/ask">
+            {!user && <Redirect to="/" />}
+            {user && <AskDoubt />}
+          </Route>
+          <Route exact path="/search">
+            <Search />
+          </Route>
+        </Switch>
+      )}
     </div>
   );
 }
