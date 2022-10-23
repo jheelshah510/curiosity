@@ -1,65 +1,72 @@
-import React from "react";
-import { AppBar, Badge, Button, Toolbar } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-// import Picture1 from "../misc/Picture1.png";
-// import "./Navbar.css";
-import PersonIcon from "@mui/icons-material/Person";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import "./Test.css";
-import { useLogout } from "../../hooks/useLogut";
-const Test = () => {
-  const { logout } = useLogout();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
+
+const filter = createFilterOptions();
+
+export default function Search() {
+  const [value, setValue] = React.useState(null);
 
   return (
-    <div>
-      <AppBar
-        style={{ background: "white" }}
-        position="static"
-        sx={{ width: "100%" }}
-      >
-        <Toolbar variant="regular">
-          {/* <img src={Picture1} alt="A" className="picture" /> */}
-          <Button sx={{ marginLeft: 175 }}>
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon color="action" />
-            </Badge>
-          </Button>
-          <PersonIcon
-            color="action"
-            onClick={handleClick}
-            sx={{ cursor: "pointer" }}
-          />
-          <Menu
-            id="demo-positioned-menu"
-            aria-labelledby="demo-positioned-button"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={logout}>Logout</MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
-};
+    <Autocomplete
+      value={value}
+      onChange={(event, newValue) => {
+        if (typeof newValue === "string") {
+          setValue({
+            title: newValue,
+          });
+        } else if (newValue && newValue.inputValue) {
+          // Create a new value from the user input
+          setValue({
+            title: newValue.inputValue,
+          });
+        } else {
+          setValue(newValue);
+        }
+      }}
+      filterOptions={(options, params) => {
+        const filtered = filter(options, params);
 
-export default Test;
+        return filtered;
+      }}
+      selectOnFocus
+      clearOnBlur
+      handleHomeEndKeys
+      id="free-solo-with-text-demo"
+      options={top100Films}
+      getOptionLabel={(option) => {
+        if (typeof option === "string") {
+          return option;
+        }
+
+        if (option.inputValue) {
+          return option.inputValue;
+        }
+
+        return option.title;
+      }}
+      renderOption={(props, option) => <li {...props}>{option.title}</li>}
+      sx={{ width: 300 }}
+      freeSolo
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Search Doubt"
+          sx={{
+            width: 700,
+            marginTop: "10vh",
+          }}
+        />
+      )}
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "18%",
+        transform: "translate(-110%, -50%)",
+      }}
+    />
+  );
+}
+
+// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
+const top100Films = [{ title: "What is Stack data structure" }];

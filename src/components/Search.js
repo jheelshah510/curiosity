@@ -16,7 +16,6 @@ export default function Search() {
             title: newValue,
           });
         } else if (newValue && newValue.inputValue) {
-          // Create a new value from the user input
           setValue({
             title: newValue.inputValue,
           });
@@ -26,9 +25,6 @@ export default function Search() {
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
-
-        const { inputValue } = params;
-        // Suggest the creation of a new value
 
         return filtered;
       }}
@@ -57,6 +53,7 @@ export default function Search() {
           label="Search Doubt"
           sx={{
             width: 700,
+            marginTop: "10vh",
           }}
         />
       )}

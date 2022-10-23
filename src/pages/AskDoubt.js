@@ -7,15 +7,9 @@ const askDoubt = () => {
   return (
     <div>
       <Navbar />
-      <Search />
-      <div className="textarea">
-        Or <br /> Ask doubt based on fields
-      </div>
-      <div className="fields">
-        <div className="card">
-          <h2>Maths</h2>
-        </div>
-      </div>
+
+      <Search style={{ width: "100%" }} />
+      <div className="search">Search Previously Solved Doubts</div>
     </div>
   );
 };

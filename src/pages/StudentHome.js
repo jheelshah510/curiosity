@@ -3,9 +3,15 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import "./StuHome.css";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useHistory } from "react-router-dom";
 
 const StudentHome = () => {
   const { user } = useAuthContext();
+  const history = useHistory();
+  const routeChange = () => {
+    let path = "ask";
+    history.push(path);
+  };
 
   return (
     <div>
@@ -38,6 +44,7 @@ const StudentHome = () => {
             minWidth: "100px",
             minHeight: "100px",
           }}
+          onClick={routeChange}
         >
           Ask Doubt
         </Button>
