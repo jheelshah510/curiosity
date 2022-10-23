@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <AppBar color="primary" sx={{ width: "100%", height: "75px" }}>
+      <AppBar color="primary" sx={{ width: "100%", height: "10vh" }}>
         <Toolbar sx={{ paddingBottom: "15px", paddingTop: "4px" }}>
           <img
             src={logo}
@@ -21,7 +21,7 @@ const Navbar = () => {
             }}
           />
           <div className="name">Curiosity</div>
-          <Button sx={{ marginLeft: 160 }}>
+          <Button sx={{ marginLeft: 150 }}>
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon color="action" />
             </Badge>
