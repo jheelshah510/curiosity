@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import React from "react";
 import Navbar from "../components/Navbar";
 import "./StuHome.css";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -8,9 +7,12 @@ import { useHistory } from "react-router-dom";
 const StudentHome = () => {
   const { user } = useAuthContext();
   const history = useHistory();
+
   const routeChange = () => {
     let path = "ask";
+
     history.push(path);
+    history.go();
   };
 
   return (

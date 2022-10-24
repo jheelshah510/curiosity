@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import "../components/FieldList.css";
 import SearchBar from "material-ui-search-bar";
+import FullScreenDialog from "../components/FullScreenDialog";
 
 const askDoubt = () => {
   return (
@@ -23,8 +23,17 @@ const askDoubt = () => {
           }}
           autoFocus
         />
-        <div style={{ marginTop: "30vh", marginLeft: "40vw" }}>
+        <div
+          style={{
+            marginTop: "30vh",
+            marginLeft: "5vw",
+            display: "grid",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <div>OR</div>
+          <FullScreenDialog />
         </div>
       </div>
     </div>

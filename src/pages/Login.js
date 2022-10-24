@@ -58,6 +58,8 @@ function Login() {
               type="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              id="outlined-basic"
+              variant={"outlined"}
             />
             <TextField
               label="Password"
