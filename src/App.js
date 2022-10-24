@@ -6,7 +6,8 @@ import LoginTeacher from "./pages/LoginTeacher";
 import StudentHome from "./pages/StudentHome";
 import AskDoubt from "./pages/AskDoubt";
 import { useAuthContext } from "./hooks/useAuthContext";
-import Doubt from "./components/Doubt";
+// import Doubt from "./components/Doubt";
+import AskQuery from "./components/AskQuery/AskQuery";
 // import PrivateRoute from "./components/PrivateRoute";
 // import PublicRoute from "./components/PublicRoute";
 
@@ -40,7 +41,8 @@ function App() {
 
           <Route exact path="/test">
             {/* {!user && <Redirect to="/" />} */}
-            <Doubt />
+            {/* <Doubt /> */}
+            <AskQuery />
           </Route>
         </Switch>
       )}
