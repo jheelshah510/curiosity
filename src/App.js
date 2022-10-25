@@ -6,10 +6,8 @@ import LoginTeacher from "./pages/LoginTeacher";
 import StudentHome from "./pages/StudentHome";
 import AskDoubt from "./pages/AskDoubt";
 import { useAuthContext } from "./hooks/useAuthContext";
-// import Doubt from "./components/Doubt";
 import AskQuery from "./components/AskQuery/AskQuery";
-// import PrivateRoute from "./components/PrivateRoute";
-// import PublicRoute from "./components/PublicRoute";
+import FieldList from "./pages/FieldList";
 
 function App() {
   const { authIsReady, user } = useAuthContext();
@@ -43,6 +41,10 @@ function App() {
             {/* {!user && <Redirect to="/" />} */}
             {/* <Doubt /> */}
             <AskQuery />
+          </Route>
+          <Route exact path="/fields">
+            {!user && <Redirect to="/" />}
+            {user && <FieldList />}
           </Route>
         </Switch>
       )}

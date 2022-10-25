@@ -1,9 +1,18 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import SearchBar from "material-ui-search-bar";
-import FullScreenDialog from "../components/FullScreenDialog";
+import { Button } from "@mui/material";
+import { useHistory } from "react-router-dom";
 
-const askDoubt = () => {
+const AskDoubt = () => {
+  const history = useHistory();
+
+  const routeChange = () => {
+    let path = "fields";
+
+    history.push(path);
+    history.go();
+  };
   return (
     <div>
       <Navbar />
@@ -33,11 +42,11 @@ const askDoubt = () => {
           }}
         >
           <div>OR</div>
-          <FullScreenDialog />
+          <Button onClick={routeChange}>Fields</Button>
         </div>
       </div>
     </div>
   );
 };
 
-export default askDoubt;
+export default AskDoubt;
