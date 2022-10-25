@@ -15,6 +15,7 @@ import { Fab } from "@mui/material";
 // import Modal from "./Modal";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useHistory } from "react-router-dom";
+import AskQuery from "../components/AskQuery/AskQuery";
 
 export default function FieldList() {
   const [showAdd, setShowAdd] = useState(false);
@@ -44,6 +45,10 @@ export default function FieldList() {
     isAdmin();
   }, [user]);
 
+  const handleClose = () => {
+    setShowAsk(false);
+  };
+
   return (
     <div>
       <AppBar sx={{ position: "relative" }}>
@@ -61,14 +66,19 @@ export default function FieldList() {
         </Toolbar>
       </AppBar>
       <List>
-        <ListItem button>
-          <ListItemText primary="Phone ringtone" sx={{ height: 40 }} />
+        <ListItem
+          button
+          onClick={() => {
+            askField();
+          }}
+        >
+          <ListItemText primary="Computer Networks" sx={{ height: 40 }} />
         </ListItem>
         <Divider />
         <ListItem button>
           <ListItemText
-            primary="Default notification ringtone"
-            secondary="Tethys"
+            primary="Data Structure and Algorithms"
+            sx={{ height: 40 }}
           />
         </ListItem>
       </List>
@@ -84,6 +94,7 @@ export default function FieldList() {
           <AddIcon />
         </Fab>
       )}
+      {showAsk && <AskQuery handleClose={handleClose} />}
     </div>
   );
 }
