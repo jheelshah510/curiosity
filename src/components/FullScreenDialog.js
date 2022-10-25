@@ -79,7 +79,7 @@ export default function FullScreenDialog() {
         </AppBar>
         <List>
           <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
+            <ListItemText primary="Phone ringtone" sx={{ height: 40 }} />
           </ListItem>
           <Divider />
           <ListItem button>
