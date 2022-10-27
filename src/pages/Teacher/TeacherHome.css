@@ -1,0 +1,39 @@
+.vertical {
+  border-left: 6px solid grey;
+  border-width: medium;
+  height: 100vh;
+  position: absolute;
+  left: 50%;
+}
+
+.welcome {
+  padding-top: 80px;
+  font-size: x-large;
+  font-style: italic;
+  width: 30vw;
+  height: 10vh;
+  margin-left: 12.5vw;
+  margin-top: 10px;
+}
+
+.para {
+  margin-left: 2vw;
+  width: 45vw;
+}
+
+.btn {
+  margin-left: 70vw;
+  margin-top: -200px;
+  width: 200px;
+}
+
+.btn1 {
+  margin-left: 70vw;
+  margin-top: 70px;
+  height: 100px;
+  width: 200px;
+}
+
+div {
+  overflow: hidden;
+}

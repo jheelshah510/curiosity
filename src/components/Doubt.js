@@ -8,7 +8,7 @@ const Doubt = () => {
   return (
     <div>
       <div className="fields">
-        <div className="card">
+        <div className="card" style={{ cursor: "pointer" }}>
           <div className="title">What is a stack in DSA?</div>
           <ListItem>
             <ListItemIcon className="list">

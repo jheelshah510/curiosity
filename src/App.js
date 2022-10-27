@@ -6,8 +6,10 @@ import LoginTeacher from "./pages/LoginTeacher";
 import StudentHome from "./pages/StudentHome";
 import AskDoubt from "./pages/AskDoubt";
 import { useAuthContext } from "./hooks/useAuthContext";
-import AskQuery from "./components/AskQuery/AskQuery";
 import FieldList from "./pages/FieldList";
+import TeacherHome from "./pages/Teacher/TeacherHome";
+import Test from "./pages/Test/Test";
+import Doubt from "./components/Doubt";
 
 function App() {
   const { authIsReady, user } = useAuthContext();
@@ -26,7 +28,7 @@ function App() {
           </Route>
           <Route exact path="/loginTeacher">
             {!user && <LoginTeacher />}
-            {user && <Redirect to="/stuhome" />}
+            {user && <Redirect to="/teahome" />}
           </Route>
           <Route exact path="/stuhome">
             {!user && <Redirect to="/" />}
@@ -38,13 +40,21 @@ function App() {
           </Route>
 
           <Route exact path="/test">
-            {/* {!user && <Redirect to="/" />} */}
-            {/* <Doubt /> */}
-            <AskQuery />
+            {!user && <Redirect to="/" />}
+            <Doubt />
           </Route>
           <Route exact path="/fields">
             {!user && <Redirect to="/" />}
             {user && <FieldList />}
+          </Route>
+          <Route exact path="/teahome">
+            {!user && <Redirect to="/LoginTeacher" />}
+            {user && <TeacherHome />}
+          </Route>
+
+          <Route exact path="/teest">
+            {!user && <Redirect to="/" />}
+            {user && <Test />}
           </Route>
         </Switch>
       )}
