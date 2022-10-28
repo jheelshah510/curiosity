@@ -16,11 +16,21 @@ import { Fab } from "@mui/material";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useHistory } from "react-router-dom";
 import AskQuery from "../components/AskQuery/AskQuery";
+import { Button } from "@mui/material";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import { database } from "../misc/firebase";
+import { useFields } from "../context/FieldsContext";
+import ShowField from "../components/ShowField";
 
 export default function FieldList() {
   const [showAdd, setShowAdd] = useState(false);
   const [showAsk, setShowAsk] = useState(false);
   const { user } = useAuthContext();
+  const [fieldName, setFieldName] = useState("");
+  const [teacherName, setTeacherName] = useState("");
+  const [code, setCode] = useState("");
+
+  const fields = useFields();
 
   const history = useHistory();
 
@@ -33,7 +43,7 @@ export default function FieldList() {
     setShowAsk(true);
   };
 
-  //   const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const isAdmin = () => {
       if (user.email === "20cs082@charusat.edu.in") {
@@ -47,6 +57,20 @@ export default function FieldList() {
 
   const handleClose = () => {
     setShowAsk(false);
+    setShowModal(false);
+  };
+  const handleSubmit = async () => {
+    const fieldData = {
+      fieldName,
+      teacherName,
+      code,
+    };
+    try {
+      await database.ref("fields").push(fieldData);
+      handleClose();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -65,22 +89,17 @@ export default function FieldList() {
           </Typography>
         </Toolbar>
       </AppBar>
+
       <List>
-        <ListItem
-          button
-          onClick={() => {
-            askField();
-          }}
-        >
-          <ListItemText primary="Computer Networks" sx={{ height: 40 }} />
-        </ListItem>
+        {fields &&
+          fields.length > 0 &&
+          fields.map((field) => (
+            <ListItem key={field.id}>
+              <ShowField field={field} />
+            </ListItem>
+          ))}
+
         <Divider />
-        <ListItem button>
-          <ListItemText
-            primary="Data Structure and Algorithms"
-            sx={{ height: 40 }}
-          />
-        </ListItem>
       </List>
       {showAdd && (
         <Fab
@@ -90,9 +109,82 @@ export default function FieldList() {
             marginTop: "50vh",
             right: 160,
           }}
+          onClick={() => {
+            setShowModal(true);
+          }}
         >
           <AddIcon />
         </Fab>
+      )}
+
+      {showModal && (
+        <div className="modal-backdrop">
+          <div
+            className="modal"
+            style={{
+              border: "4px solid",
+              borderColor: "#ff4500",
+              textAlign: "center",
+            }}
+          >
+            <h3>Add Field</h3>
+            <form
+              className="new-event-form"
+              onSubmit={() => {
+                handleSubmit();
+              }}
+            >
+              <label>
+                <span>Field name</span>
+                <input
+                  type="text"
+                  className="input1"
+                  onChange={(e) => {
+                    setFieldName(e.target.value);
+                  }}
+                />
+              </label>
+              <label>
+                <span>Add Teacher</span>
+                <input
+                  type="text"
+                  className="input1"
+                  onChange={(e) => {
+                    setTeacherName(e.target.value);
+                  }}
+                />
+              </label>
+              <label>
+                <span>Code</span>
+                <input
+                  type="text"
+                  className="input1"
+                  onChange={(e) => {
+                    setCode(e.target.value);
+                  }}
+                />
+              </label>
+            </form>
+            <Button
+              onClick={handleClose}
+              startIcon={<CloseIcon color="red" />}
+              sx={{ marginRight: "20px", marginLeft: "20px", color: "orange" }}
+              size="large"
+            >
+              Discard
+            </Button>
+            <Button
+              startIcon={<AddBoxIcon />}
+              sx={{ marginRight: "20px", marginLeft: "20px" }}
+              color="primary"
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
+              Add
+            </Button>
+          </div>
+        </div>
       )}
       {showAsk && <AskQuery handleClose={handleClose} />}
     </div>
