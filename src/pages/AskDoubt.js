@@ -1,8 +1,9 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import SearchBar from "material-ui-search-bar";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useHistory } from "react-router-dom";
+import "./AskDoubt.css";
 
 const AskDoubt = () => {
   const history = useHistory();
@@ -16,33 +17,48 @@ const AskDoubt = () => {
   return (
     <div>
       <Navbar />
+      <div className="vertical"></div>
 
       <div>
-        <div style={{ marginTop: "15vh", marginLeft: "38vw" }}>
-          Search Previously Solved Doubts
+        <div>
+          <Typography
+            variant="body1"
+            style={{ marginTop: "20vh", marginLeft: "10vw", width: "20vw" }}
+          >
+            Search Previously Solved Doubts
+          </Typography>
+          <SearchBar
+            className="searchbar"
+            style={{
+              position: "fixed",
+              marginTop: "2vh",
+              marginLeft: "2vw",
+              maxWidth: 800,
+              minWidth: 500,
+            }}
+            autoFocus
+          />
         </div>
-        <SearchBar
-          className="searchbar"
-          style={{
-            position: "fixed",
-            marginTop: "2vh",
-            marginLeft: "30vw",
-            maxWidth: 800,
-            minWidth: 500,
-          }}
-          autoFocus
-        />
         <div
           style={{
-            marginTop: "30vh",
-            marginLeft: "5vw",
+            marginTop: "-3vh",
+            marginLeft: "60vw",
             display: "grid",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <div>OR</div>
-          <Button onClick={routeChange}>Fields</Button>
+          <Typography variant="body1">
+            Ask Doubt based on different fields
+          </Typography>
+          <Button
+            onClick={routeChange}
+            style={{ marginTop: "20px" }}
+            variant="contained"
+            color="secondary"
+          >
+            Fields
+          </Button>
         </div>
       </div>
     </div>
