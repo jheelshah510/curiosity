@@ -92,12 +92,13 @@ export default function FieldList() {
 
       <List>
         {fields &&
-          fields.length > 0 &&
-          fields.map((field) => (
-            <ListItem key={field.id}>
-              <ShowField field={field} />
-            </ListItem>
-          ))}
+          fields.map((field) => {
+            return (
+              <ListItem key={field.id}>
+                <ListItemText primary={field.fieldName} sx={{ height: 40 }} />
+              </ListItem>
+            );
+          })}
 
         <Divider />
       </List>
