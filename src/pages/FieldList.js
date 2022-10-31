@@ -11,16 +11,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { Fab } from "@mui/material";
-// import NewEventForm from "./AddField";
-// import Modal from "./Modal";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import AskQuery from "../components/AskQuery/AskQuery";
 import { Button } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import { database } from "../misc/firebase";
-import { useFields } from "../context/FieldsContext";
-import ShowField from "../components/ShowField";
+import { projectFirestore } from "../misc/firebase";
+import { useField } from "../hooks/useField";
 
 export default function FieldList() {
   const [showAdd, setShowAdd] = useState(false);
@@ -30,7 +27,8 @@ export default function FieldList() {
   const [teacherName, setTeacherName] = useState("");
   const [code, setCode] = useState("");
 
-  const fields = useFields();
+  const fields = useField();
+  const { id } = useParams;
 
   const history = useHistory();
 
@@ -39,14 +37,14 @@ export default function FieldList() {
     history.push(route);
     history.go();
   };
-  const askField = () => {
+  const askField = ({ id }) => {
     setShowAsk(true);
   };
 
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const isAdmin = () => {
-      if (user.email === "20cs082@charusat.edu.in") {
+      if (user.email === "jheelshah510@gmail.com") {
         setShowAdd(true);
       } else {
         setShowAdd(false);
@@ -54,6 +52,17 @@ export default function FieldList() {
     };
     isAdmin();
   }, [user]);
+
+  useEffect(() => {
+    const unsub = projectFirestore
+      .collection("fields")
+      .doc(id)
+      .onSnapshot((doc) => {
+        console.log(doc);
+      });
+
+    return () => unsub;
+  }, [id]);
 
   const handleClose = () => {
     setShowAsk(false);
@@ -66,7 +75,7 @@ export default function FieldList() {
       code,
     };
     try {
-      await database.ref("fields").push(fieldData);
+      await projectFirestore.collection("fields").add(fieldData);
       handleClose();
     } catch (err) {
       console.log(err);
@@ -94,8 +103,17 @@ export default function FieldList() {
         {fields &&
           fields.map((field) => {
             return (
-              <ListItem key={field.id}>
-                <ListItemText primary={field.fieldName} sx={{ height: 40 }} />
+              <ListItem
+                key={field.id}
+                button
+                onClick={() => {
+                  askField(field.id);
+                }}
+              >
+                <ListItemText
+                  primary={field.fieldName}
+                  sx={{ height: 40, border: "10px" }}
+                />
               </ListItem>
             );
           })}
@@ -105,9 +123,9 @@ export default function FieldList() {
       {showAdd && (
         <Fab
           color="secondary"
-          sx={{
-            position: "absolute",
-            marginTop: "50vh",
+          style={{
+            position: "fixed",
+            marginTop: "60vh",
             right: 160,
           }}
           onClick={() => {
