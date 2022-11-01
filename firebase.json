@@ -1,14 +1,27 @@
 {
   "database": {
-    "rules": "database.rules.json"
+    "rules": {
+      "profiles": {
+        "$user_id": {
+          ".read": "$user_id==auth.uid",
+          ".write": "$user_id==auth.uid"
+        }
+      },
+      "fields": {
+        ".read": "auth !== null",
+        ".write": "auth !== null",
+        "$field_id": {
+          ".read": "auth !== null",
+          ".write": "auth !== null"
+        }
+      },
+      ".read": false,
+      ".write": false
+    }
   },
   "hosting": {
     "public": "build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
