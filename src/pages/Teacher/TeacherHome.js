@@ -3,9 +3,16 @@ import Navbar from "../../components/Navbar";
 import "./TeacherHome.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Button } from "@mui/material";
+import { useHistory } from "react-router-dom";
 
 const TeacherHome = () => {
   const { user } = useAuthContext();
+  const history = useHistory();
+
+  const pendings = () => {
+    let path = "/teest";
+    history.push(path);
+  };
   return (
     <div>
       <Navbar />
@@ -36,6 +43,9 @@ const TeacherHome = () => {
             maxHeight: "200px",
             minWidth: "100px",
             minHeight: "100px",
+          }}
+          onClick={() => {
+            pendings();
           }}
         >
           Pending Doubts

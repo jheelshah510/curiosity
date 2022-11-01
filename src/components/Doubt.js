@@ -3,12 +3,24 @@ import "./Doubt.css";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import { ListItem, ListItemIcon } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { useHistory } from "react-router-dom";
 
 const Doubt = () => {
+  const history = useHistory();
+  const redirectChat = () => {
+    let path = "/teeest";
+    history.push(path);
+  };
   return (
     <div>
       <div className="fields">
-        <div className="card" style={{ cursor: "pointer" }}>
+        <div
+          className="card"
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            redirectChat();
+          }}
+        >
           <div className="title">What is a stack in DSA?</div>
           <ListItem>
             <ListItemIcon className="list">

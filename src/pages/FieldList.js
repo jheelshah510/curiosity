@@ -75,6 +75,7 @@ export default function FieldList() {
       teacherName,
       code,
     };
+
     try {
       await projectFirestore.collection("fields").add(fieldData);
       handleClose();

@@ -11,6 +11,7 @@ import TeacherHome from "./pages/Teacher/TeacherHome";
 import Doubt from "./components/Doubt";
 import AskQuery from "./components/AskQuery/AskQuery";
 import Test from "./pages/Test/Test";
+import ChatLayout from "./components/Chat/ChatLayout";
 
 function App() {
   const { authIsReady, user } = useAuthContext();
@@ -60,7 +61,7 @@ function App() {
           </Route>
           <Route exact path="/teeest">
             {!user && <Redirect to="/" />}
-            {user && <Test />}
+            {user && <ChatLayout />}
           </Route>
         </Switch>
       )}
