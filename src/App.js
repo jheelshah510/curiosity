@@ -9,8 +9,8 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import FieldList from "./pages/FieldList";
 import TeacherHome from "./pages/Teacher/TeacherHome";
 import Doubt from "./components/Doubt";
-import ShowField from "./components/ShowField";
 import AskQuery from "./components/AskQuery/AskQuery";
+import Test from "./pages/Test/Test";
 
 function App() {
   const { authIsReady, user } = useAuthContext();
@@ -56,11 +56,11 @@ function App() {
 
           <Route exact path="/teest">
             {!user && <Redirect to="/" />}
-            {user && <ShowField />}
+            {user && <Doubt />}
           </Route>
           <Route exact path="/teeest">
             {!user && <Redirect to="/" />}
-            {user && <AskQuery />}
+            {user && <Test />}
           </Route>
         </Switch>
       )}

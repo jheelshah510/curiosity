@@ -37,14 +37,15 @@ export default function FieldList() {
     history.push(route);
     history.go();
   };
-  const askField = ({ id }) => {
+  function askField(id) {
     setShowAsk(true);
-  };
+    console.log(id);
+  }
 
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const isAdmin = () => {
-      if (user.email === "jheelshah510@gmail.com") {
+      if (user.email === "jheelshah@gmail.com") {
         setShowAdd(true);
       } else {
         setShowAdd(false);
@@ -125,7 +126,7 @@ export default function FieldList() {
           color="secondary"
           style={{
             position: "fixed",
-            marginTop: "60vh",
+            marginTop: "40vh",
             right: 160,
           }}
           onClick={() => {

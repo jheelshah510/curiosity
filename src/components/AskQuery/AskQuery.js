@@ -1,14 +1,15 @@
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AskQuery.css";
 import CloseIcon from "@mui/icons-material/Close";
 import ImageIcon from "@mui/icons-material/Image";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { useFirestore } from "../../hooks/useFirestore";
 import { projectFirestore } from "../../misc/firebase";
 import { storage } from "../../misc/firebase";
 import { v4 } from "uuid";
-const AskQuery = ({ handleClose }) => {
+import { useAuthContext } from "../../hooks/useAuthContext";
+
+const AskQuery = ({ handleClose, idd }) => {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [imageUpload, setImageUpload] = useState(null);
@@ -21,11 +22,17 @@ const AskQuery = ({ handleClose }) => {
       alert("Image Uploaded");
     });
   };
+  const { user } = useAuthContext();
+  const userId = user.uid;
+
+  const [status, setStatus] = useState(false);
 
   const handleSubmit = async () => {
     const doubtData = {
       title,
       description,
+      status,
+      userId,
     };
     try {
       await projectFirestore.collection("doubt").add(doubtData);
@@ -34,6 +41,7 @@ const AskQuery = ({ handleClose }) => {
       console.log(err);
     }
   };
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -83,7 +91,7 @@ const AskQuery = ({ handleClose }) => {
             type="file"
             id="imgUpload"
             onChange={(e) => {
-              setImageUpload(e.target.files);
+              setImageUpload(e.target.files[0]);
             }}
           />
           <Button

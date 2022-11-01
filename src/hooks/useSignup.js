@@ -26,6 +26,7 @@ const useSignUp = () => {
       database.ref(`/profiles/${res.user.uid}`).set({
         name: res.user.displayName,
         email: res.user.email,
+        uid: res.user.uid,
       });
 
       //dispatch login action
