@@ -1,16 +1,15 @@
 import React from "react";
 import "./Doubt.css";
 import { ListItem, ListItemIcon } from "@mui/material";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import { useHistory } from "react-router-dom";
 
-const Doubt = ({ title, status }) => {
+function Doubtout({ title, status }) {
   const history = useHistory();
   const redirectChat = () => {
     let path = "/teeest";
     history.push(path);
   };
-
   return (
     <div>
       {!status && (
@@ -25,8 +24,8 @@ const Doubt = ({ title, status }) => {
             <div className="title">{title}</div>
             <ListItem>
               <ListItemIcon className="list">
-                <InfoOutlinedIcon style={{ color: "orange" }} />
-                Pending
+                <CheckCircleOutlineRoundedIcon style={{ color: "green" }} />
+                Solved
               </ListItemIcon>
             </ListItem>
           </div>
@@ -34,6 +33,6 @@ const Doubt = ({ title, status }) => {
       )}
     </div>
   );
-};
+}
 
-export default Doubt;
+export default Doubtout;

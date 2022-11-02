@@ -10,7 +10,12 @@ const TeacherHome = () => {
   const history = useHistory();
 
   const pendings = () => {
-    let path = "/teest";
+    let path = "/pending";
+    history.push(path);
+  };
+
+  const solved = () => {
+    let path = "/solved";
     history.push(path);
   };
   return (
@@ -62,6 +67,9 @@ const TeacherHome = () => {
             maxHeight: "200px",
             minWidth: "100px",
             minHeight: "100px",
+          }}
+          onClick={() => {
+            solved();
           }}
         >
           Solved Doubts

@@ -15,6 +15,10 @@ const StudentHome = () => {
     history.go();
   };
 
+  const previous = () => {
+    let path = "previous";
+    history.push(path);
+  };
   return (
     <div>
       <Navbar />
@@ -62,6 +66,9 @@ const StudentHome = () => {
             maxHeight: "200px",
             minWidth: "100px",
             minHeight: "100px",
+          }}
+          onClick={() => {
+            previous();
           }}
         >
           Previous Doubt

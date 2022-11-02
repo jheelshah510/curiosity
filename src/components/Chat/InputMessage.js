@@ -11,7 +11,7 @@ const InputMessage = () => {
         <label htmlFor="file">
           <ImageOutlinedIcon />
         </label>
-        <button class="sandy">Send</button>
+        <button className="sandy">Send</button>
       </div>
     </div>
   );

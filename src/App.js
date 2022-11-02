@@ -12,6 +12,9 @@ import Doubt from "./components/Doubt";
 import AskQuery from "./components/AskQuery/AskQuery";
 import Test from "./pages/Test/Test";
 import ChatLayout from "./components/Chat/ChatLayout";
+import Pending from "./pages/Pending";
+import Previous from "./pages/Previous";
+import Solved from "./pages/Solved";
 
 function App() {
   const { authIsReady, user } = useAuthContext();
@@ -62,6 +65,18 @@ function App() {
           <Route exact path="/teeest">
             {!user && <Redirect to="/" />}
             {user && <ChatLayout />}
+          </Route>
+          <Route exact path="/pending">
+            {!user && <Redirect to="/" />}
+            {user && <Pending />}
+          </Route>
+          <Route exact path="/previous">
+            {!user && <Redirect to="/" />}
+            {user && <Previous />}
+          </Route>
+          <Route exact path="/solved">
+            {!user && <Redirect to="/" />}
+            {user && <Solved />}
           </Route>
         </Switch>
       )}
