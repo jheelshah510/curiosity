@@ -7,12 +7,6 @@ export const FieldsProvider = ({ children }) => {
   const [fields, setFields] = useState(null);
 
   useEffect(() => {
-    // const fieldsListRef = database.ref("fields");
-    // fieldsListRef.on("value", (snap) => {
-    //   const data = transformToArrWithId(snap.val());
-    //   console.log(data);
-    //   setFields(data);
-    // });
     projectFirestore
       .collection("fields")
       .get()

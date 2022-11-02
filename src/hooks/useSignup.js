@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { database, projectAuth } from "../misc/firebase";
+import { projectAuth, projectFirestore } from "../misc/firebase";
 import { useAuthContext } from "./useAuthContext";
 
 const useSignUp = () => {
@@ -22,12 +22,30 @@ const useSignUp = () => {
       }
 
       await res.user.updateProfile({ displayName });
-
-      database.ref(`/profiles/${res.user.uid}`).set({
-        name: res.user.displayName,
-        email: res.user.email,
-        uid: res.user.uid,
-      });
+      projectFirestore
+        .collection("users")
+        .doc(res.user.uid)
+        .set({
+          name: res.user.displayName,
+          email: res.user.email,
+          uid: res.user.uid,
+        })
+        .then(() => {
+          console.log("Document successfully written!");
+        })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+        });
+      projectFirestore
+        .collection("userChats")
+        .doc(res.user.uid)
+        .set({})
+        .then(() => {
+          console.log("Document successfully written!");
+        })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+        });
 
       //dispatch login action
       dispatch({ type: "LOGIN", payload: res.user });

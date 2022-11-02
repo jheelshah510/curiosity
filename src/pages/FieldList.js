@@ -24,7 +24,8 @@ export default function FieldList() {
   const [showAsk, setShowAsk] = useState(false);
   const { user } = useAuthContext();
   const [fieldName, setFieldName] = useState("");
-  const [teacherName, setTeacherName] = useState("");
+  const [teacherCode, setTeacherCode] = useState("");
+  const [fieldId, setFieldId] = useState("");
   const [code, setCode] = useState("");
 
   const fields = useField();
@@ -39,13 +40,11 @@ export default function FieldList() {
   };
   function askField(id) {
     setShowAsk(true);
-    console.log(id);
   }
-
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const isAdmin = () => {
-      if (user.email === "jheelshah@gmail.com") {
+      if (user.email === "jheelshah510@gmail.com") {
         setShowAdd(true);
       } else {
         setShowAdd(false);
@@ -72,12 +71,13 @@ export default function FieldList() {
   const handleSubmit = async () => {
     const fieldData = {
       fieldName,
-      teacherName,
+      teacherCode,
       code,
     };
 
     try {
       await projectFirestore.collection("fields").add(fieldData);
+
       handleClose();
     } catch (err) {
       console.log(err);
@@ -109,6 +109,7 @@ export default function FieldList() {
                 key={field.id}
                 button
                 onClick={() => {
+                  setFieldId(field.id);
                   askField(field.id);
                 }}
               >
@@ -171,7 +172,7 @@ export default function FieldList() {
                   type="text"
                   className="input1"
                   onChange={(e) => {
-                    setTeacherName(e.target.value);
+                    setTeacherCode(e.target.value);
                   }}
                 />
               </label>
@@ -207,7 +208,13 @@ export default function FieldList() {
           </div>
         </div>
       )}
-      {showAsk && <AskQuery handleClose={handleClose} />}
+      {showAsk && (
+        <AskQuery
+          handleClose={handleClose}
+          teacherCode={teacherCode}
+          fieldId={fieldId}
+        />
+      )}
     </div>
   );
 }

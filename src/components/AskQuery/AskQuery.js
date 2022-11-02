@@ -9,7 +9,7 @@ import { storage } from "../../misc/firebase";
 import { v4 } from "uuid";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-const AskQuery = ({ handleClose, idd }) => {
+const AskQuery = ({ handleClose, fieldId, teacherCode }) => {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [imageUpload, setImageUpload] = useState(null);
@@ -26,6 +26,22 @@ const AskQuery = ({ handleClose, idd }) => {
   const userId = user.uid;
 
   const [status, setStatus] = useState(false);
+
+  var docRef = projectFirestore.collection("fields").doc(fieldId);
+
+  docRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        console.log("Document data:", doc.data().teacherCode);
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+    });
 
   const handleSubmit = async () => {
     const doubtData = {
