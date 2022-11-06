@@ -26,10 +26,11 @@ export default function FieldList() {
   const [fieldName, setFieldName] = useState("");
   const [teacherCode, setTeacherCode] = useState("");
   const [fieldId, setFieldId] = useState("");
+  const [tempoCode, setTempoCode] = useState("");
   const [code, setCode] = useState("");
 
   const fields = useField();
-  const { id } = useParams;
+  const { id } = useParams();
 
   const history = useHistory();
 
@@ -57,9 +58,7 @@ export default function FieldList() {
     const unsub = projectFirestore
       .collection("fields")
       .doc(id)
-      .onSnapshot((doc) => {
-        console.log(doc);
-      });
+      .onSnapshot((doc) => {});
 
     return () => unsub;
   }, [id]);
@@ -111,6 +110,7 @@ export default function FieldList() {
                 onClick={() => {
                   setFieldId(field.id);
                   askField(field.id);
+                  setTempoCode(field.teacherCode);
                 }}
               >
                 <ListItemText
@@ -211,7 +211,7 @@ export default function FieldList() {
       {showAsk && (
         <AskQuery
           handleClose={handleClose}
-          teacherCode={teacherCode}
+          tempoCode={tempoCode}
           fieldId={fieldId}
         />
       )}

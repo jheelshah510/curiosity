@@ -22,6 +22,6 @@ export const database = app.database();
 
 export const projectFirestore = app.firestore();
 
-export const timestamp = firebase.firestore.Timestamp;
+export const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
 export const storage = app.storage();

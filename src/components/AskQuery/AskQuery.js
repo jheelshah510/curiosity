@@ -4,15 +4,16 @@ import "./AskQuery.css";
 import CloseIcon from "@mui/icons-material/Close";
 import ImageIcon from "@mui/icons-material/Image";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { projectFirestore } from "../../misc/firebase";
+import { projectFirestore, timestamp } from "../../misc/firebase";
 import { storage } from "../../misc/firebase";
 import { v4 } from "uuid";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-const AskQuery = ({ handleClose, fieldId, teacherCode }) => {
+const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [imageUpload, setImageUpload] = useState(null);
+  const [teachCode, setTeachCode] = useState("");
 
   const uploadImage = () => {
     if (imageUpload == null) return;
@@ -24,24 +25,7 @@ const AskQuery = ({ handleClose, fieldId, teacherCode }) => {
   };
   const { user } = useAuthContext();
   const userId = user.uid;
-
   const [status, setStatus] = useState(false);
-
-  var docRef = projectFirestore.collection("fields").doc(fieldId);
-
-  docRef
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        console.log("Document data:", doc.data().teacherCode);
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    })
-    .catch((error) => {
-      console.log("Error getting document:", error);
-    });
 
   const handleSubmit = async () => {
     const doubtData = {
@@ -57,7 +41,42 @@ const AskQuery = ({ handleClose, fieldId, teacherCode }) => {
       console.log(err);
     }
   };
-  useEffect(() => {}, []);
+
+  const handleSelect = async () => {
+    //check whether group exists, if not create new one
+    //create user chats
+    const combinedId =
+      userId > teachCode ? userId + teachCode : teachCode + userId;
+
+    console.log(combinedId);
+
+    try {
+      projectFirestore
+        .collection("chats")
+        .doc(combinedId)
+        .get()
+        .then((doc) => {
+          if (!doc.exists) {
+            projectFirestore.collection("chats").doc(combinedId).set({
+              messages: [],
+            });
+
+            projectFirestore
+              .collection("userChats")
+              .doc(userId)
+              .update({
+                [combinedId + ".data"]: timestamp,
+              });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    setTeachCode(tempoCode);
+    console.log(tempoCode);
+  }, [tempoCode]);
 
   return (
     <div>
@@ -125,6 +144,7 @@ const AskQuery = ({ handleClose, fieldId, teacherCode }) => {
             color="primary"
             onClick={() => {
               handleSubmit();
+              handleSelect();
             }}
           >
             Upload
