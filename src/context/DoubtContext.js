@@ -16,7 +16,6 @@ export const DoubtProvider = ({ children }) => {
           let results = [];
           snap.docs.forEach((doc) => {
             results.push({ id: doc.id, ...doc.data() });
-            console.log(results);
           });
           setInitialData(results);
         }
@@ -25,7 +24,6 @@ export const DoubtProvider = ({ children }) => {
   return (
     <DoubtContext.Provider value={initialData}>
       {children}
-      {console.log(initialData)}
     </DoubtContext.Provider>
   );
 };

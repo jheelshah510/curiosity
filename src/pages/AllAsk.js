@@ -11,6 +11,7 @@ const AllAsk = ({ title, status }) => {
     let path = "/teeest";
     history.push(path);
   };
+
   return (
     <div>
       <div className="fields">

@@ -10,8 +10,6 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 const ChatLayout = () => {
   const [cats, setChats] = useState([]);
   const [showChat, setShowChat] = useState(true);
-  const { user } = useAuthContext();
-  const userId = user.uid;
 
   let history = useHistory();
 
@@ -20,14 +18,6 @@ const ChatLayout = () => {
     history.goBack();
   };
 
-  useEffect(() => {
-    projectFirestore
-      .collection("userChats")
-      .doc(userId)
-      .onSnapshot((doc) => {
-        // console.log("Current data: ", doc.data());
-      });
-  }, [userId]);
   return (
     <div>
       {showChat && (

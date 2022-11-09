@@ -5,10 +5,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./Test.css";
 import { projectFirestore } from "../../misc/firebase";
+import { Button } from "@mui/material";
+import { useDoubt } from "../../hooks/useDoubt";
 // import { useParams } from "react-router-dom";
 
 const Test = () => {
-  const [doubts, setDoubts] = useState();
+  const initialData = useDoubt();
+  // const [doubts, setDoubts] = useState();
   // const { id } = useParams;
 
   // useEffect(() => {
@@ -37,13 +40,17 @@ const Test = () => {
   //     });
   // }, []);
 
-  useEffect(() => {
-    const getDoubt = async () => {
-      const data = await projectFirestore.collection("doubt").get();
-      setDoubts(data.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-    };
-    getDoubt();
-  }, []);
+  // useEffect(() => {
+  //   const getDoubt = async () => {
+  //     const data = await projectFirestore.collection("doubt").get();
+  //     setDoubts(data.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+  //   };
+  //   getDoubt();
+  // }, []);
+
+  const handleClick = () => {
+    console.log(initialData[0].id);
+  };
 
   return (
     // <div>
@@ -61,15 +68,24 @@ const Test = () => {
     //     </div>
     //   </div>
     // </div>
+    // <div>
+    //   {doubts &&
+    //     doubts.map((doubt) => {
+    //       return (
+    //         <div key={doubt.id}>
+    //           <h2>Title:{doubt.title}</h2>
+    //         </div>
+    //       );
+    //     })}
+    // </div>
     <div>
-      {doubts &&
-        doubts.map((doubt) => {
-          return (
-            <div key={doubt.id}>
-              <h2>Title:{doubt.title}</h2>
-            </div>
-          );
-        })}
+      <Button
+        onClick={() => {
+          handleClick();
+        }}
+      >
+        Baby
+      </Button>
     </div>
   );
 };

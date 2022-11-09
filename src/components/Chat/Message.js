@@ -1,12 +1,10 @@
-import React from "react";
-import studentLogo from "../../assets/graduated.png";
+import studentLogo from "../../assets/user.png";
 
 const Message = () => {
   return (
     <div className="message owner">
       <div className="messageInfo">
-        <img src={studentLogo} alt="" />
-        <span>just now</span>
+        <img src={studentLogo} alt="" style={{ marginTop: "25px" }} />
       </div>
       <div className="messageContent">
         <p className="chat">Hello</p>

@@ -14,6 +14,7 @@ import Pending from "./pages/Pending";
 import Previous from "./pages/Previous";
 import Solved from "./pages/Solved";
 import { ChatContextProvider } from "./context/ChatsContext";
+import Test from "./pages/Test/Test";
 
 function App() {
   const { authIsReady, user } = useAuthContext();
@@ -80,6 +81,10 @@ function App() {
           <Route exact path="/temp">
             {!user && <Redirect to="/" />}
             {user && <ChatContextProvider />}
+          </Route>
+          <Route exact path="/tip">
+            {!user && <Redirect to="/" />}
+            {user && <Test />}
           </Route>
         </Switch>
       )}
