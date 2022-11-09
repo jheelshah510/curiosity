@@ -10,11 +10,7 @@ const Message = () => {
       </div>
       <div className="messageContent">
         <p className="chat">Hello</p>
-        <img
-          src="https://unsplash.com/photos/GRV4ypBKgxE"
-          alt=""
-          className="image"
-        />
+        <img src="" alt="" className="image" />
       </div>
     </div>
   );

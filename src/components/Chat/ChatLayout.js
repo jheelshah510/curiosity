@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ChatLayout.css";
 import CloseIcon from "@mui/icons-material/Close";
 import Messages from "./Messages";
 import InputMessage from "./InputMessage";
 import { useHistory } from "react-router-dom";
+import { projectFirestore } from "../../misc/firebase";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const ChatLayout = () => {
+  const [cats, setChats] = useState([]);
   const [showChat, setShowChat] = useState(true);
+  const { user } = useAuthContext();
+  const userId = user.uid;
 
   let history = useHistory();
 
@@ -14,6 +19,15 @@ const ChatLayout = () => {
     setShowChat(false);
     history.goBack();
   };
+
+  useEffect(() => {
+    projectFirestore
+      .collection("userChats")
+      .doc(userId)
+      .onSnapshot((doc) => {
+        // console.log("Current data: ", doc.data());
+      });
+  }, [userId]);
   return (
     <div>
       {showChat && (

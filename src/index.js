@@ -6,15 +6,18 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { AuthContextProvider } from "./context/AuthContext";
 import { FieldsProvider } from "./context/FieldsContext";
+import { DoubtProvider } from "./context/DoubtContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <FieldsProvider>
-      <AuthContextProvider>
-        <App />
-      </AuthContextProvider>
-    </FieldsProvider>
+    <AuthContextProvider>
+      <FieldsProvider>
+        <DoubtProvider>
+          <App />
+        </DoubtProvider>
+      </FieldsProvider>
+    </AuthContextProvider>
   </BrowserRouter>
 );
 

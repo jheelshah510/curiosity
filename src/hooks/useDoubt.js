@@ -1,7 +1,7 @@
-import React from "react";
+import { useContext } from "react";
+import { DoubtContext } from "../context/DoubtContext";
 
-function useDoubt() {
-  return <div>useDoubt</div>;
-}
-
-export default useDoubt;
+export const useDoubt = () => {
+  const context = useContext(DoubtContext);
+  return context;
+};

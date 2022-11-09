@@ -9,12 +9,11 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import FieldList from "./pages/FieldList";
 import TeacherHome from "./pages/Teacher/TeacherHome";
 import Doubt from "./components/Doubt";
-import AskQuery from "./components/AskQuery/AskQuery";
-import Test from "./pages/Test/Test";
 import ChatLayout from "./components/Chat/ChatLayout";
 import Pending from "./pages/Pending";
 import Previous from "./pages/Previous";
 import Solved from "./pages/Solved";
+import { ChatContextProvider } from "./context/ChatsContext";
 
 function App() {
   const { authIsReady, user } = useAuthContext();
@@ -77,6 +76,10 @@ function App() {
           <Route exact path="/solved">
             {!user && <Redirect to="/" />}
             {user && <Solved />}
+          </Route>
+          <Route exact path="/temp">
+            {!user && <Redirect to="/" />}
+            {user && <ChatContextProvider />}
           </Route>
         </Switch>
       )}

@@ -4,7 +4,7 @@ import "./AskQuery.css";
 import CloseIcon from "@mui/icons-material/Close";
 import ImageIcon from "@mui/icons-material/Image";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { projectFirestore, timestamp } from "../../misc/firebase";
+import { projectFirestore } from "../../misc/firebase";
 import { storage } from "../../misc/firebase";
 import { v4 } from "uuid";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -17,22 +17,36 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
 
   const uploadImage = () => {
     if (imageUpload == null) return;
+    var path = `images/${imageUpload.name + v4()}`;
     var storageRef = storage.ref();
-    var spaceRef = storageRef.child(`images/${imageUpload.name + v4()}`);
+    var spaceRef = storageRef.child(path);
     spaceRef.put(imageUpload).then((snapshot) => {
       alert("Image Uploaded");
+
+      snapshot.ref
+        .getDownloadURL()
+        .then(function (url) {
+          var test = url;
+          handleSubmit(test);
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
     });
   };
   const { user } = useAuthContext();
   const userId = user.uid;
   const [status, setStatus] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (test) => {
+    const combined = userId + teachCode;
     const doubtData = {
       title,
       description,
       status,
       userId,
+      combined,
+      test,
     };
     try {
       await projectFirestore.collection("doubt").add(doubtData);
@@ -43,12 +57,8 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
   };
 
   const handleSelect = async () => {
-    //check whether group exists, if not create new one
-    //create user chats
     const combinedId =
       userId > teachCode ? userId + teachCode : teachCode + userId;
-
-    console.log(combinedId);
 
     try {
       projectFirestore
@@ -60,13 +70,6 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
             projectFirestore.collection("chats").doc(combinedId).set({
               messages: [],
             });
-
-            projectFirestore
-              .collection("userChats")
-              .doc(userId)
-              .update({
-                [combinedId + ".data"]: timestamp,
-              });
           }
         });
     } catch (error) {
