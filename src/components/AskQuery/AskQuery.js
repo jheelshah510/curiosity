@@ -26,8 +26,8 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
       snapshot.ref
         .getDownloadURL()
         .then(function (url) {
-          var test = url;
-          handleSubmit(test);
+          var imgUrl = url;
+          handleSubmit(imgUrl);
         })
         .catch(function (err) {
           console.log(err);
@@ -38,7 +38,7 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
   const userId = user.uid;
   const [status, setStatus] = useState(false);
 
-  const handleSubmit = async (test) => {
+  const handleSubmit = async (imgUrl) => {
     const combined = userId + teachCode;
     const doubtData = {
       title,
@@ -46,7 +46,7 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
       status,
       userId,
       combined,
-      test,
+      imgUrl,
     };
     try {
       await projectFirestore.collection("doubt").add(doubtData);
