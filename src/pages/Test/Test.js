@@ -57,6 +57,7 @@ const Test = () => {
 
   const handleSelect = () => {
     console.log(initialData[0].combined);
+    console.log(initialData[0].title);
   };
 
   return (

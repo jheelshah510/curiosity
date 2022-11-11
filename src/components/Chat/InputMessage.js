@@ -7,6 +7,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { projectFirestore, storage } from "../../misc/firebase";
 import firebase from "firebase";
 import { v4 as uuid } from "uuid";
+import { Button } from "@mui/material";
 
 const InputMessage = () => {
   const [description, setDescription] = useState("");
@@ -32,14 +33,14 @@ const InputMessage = () => {
             projectFirestore
               .collection("chats")
               .doc(initialData[0].combined)
-              .collection("messages")
-              .doc(uuid())
-              .set({
-                messages: {
+              .update({
+                messages: firebase.firestore.FieldValue.arrayUnion({
+                  id: uuid(),
                   description,
                   senderId: userId,
                   img: imgUrl,
-                },
+                  date: firebase.firestore.Timestamp.now(),
+                }),
               });
           })
 
@@ -48,17 +49,22 @@ const InputMessage = () => {
           });
       });
     } else {
-      projectFirestore
-        .collection("chats")
-        .doc(initialData[0].combined)
-        .collection("messages")
-        .doc(uuid())
-        .set({
-          messages: {
-            description,
-            senderId: userId,
-          },
-        });
+      try {
+        projectFirestore
+          .collection("chats")
+          .doc(initialData[0].combined)
+          .update({
+            messages: firebase.firestore.FieldValue.arrayUnion({
+              id: uuid(),
+              description: description,
+              senderId: userId,
+              date: firebase.firestore.Timestamp.now(),
+            }),
+          });
+      } catch (error) {
+        console.log(description);
+        console.log(error);
+      }
     }
   };
 
@@ -83,7 +89,11 @@ const InputMessage = () => {
         <label htmlFor="file">
           <ImageOutlinedIcon />
         </label>
-        <button className="sandy" onClick={handleSend}>
+        <button
+          className="sandy"
+          onClick={handleSend}
+          style={{ cursor: "pointer" }}
+        >
           Send
         </button>
       </div>

@@ -7,7 +7,6 @@ import {
   ListItem,
   ListItemIcon,
   Paper,
-  TextField,
   Typography,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
@@ -43,7 +42,6 @@ const AskDoubt = () => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
           setDoubt(doc.data());
           setDid(doc.id);
         });

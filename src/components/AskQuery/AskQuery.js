@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import firebase from "firebase";
 import React, { useState, useEffect } from "react";
 import "./AskQuery.css";
 import CloseIcon from "@mui/icons-material/Close";
@@ -8,7 +9,6 @@ import { projectFirestore } from "../../misc/firebase";
 import { storage } from "../../misc/firebase";
 import { v4 as uuid } from "uuid";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import firebase from "firebase";
 
 const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
   const [title, setTitle] = useState(null);
@@ -59,32 +59,37 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
   };
 
   const handleSelect = async (imgUrl) => {
-    const combinedId =
-      userId > teachCode ? userId + teachCode : teachCode + userId;
-
+    const combinedId = userId + teachCode ;
+    // try {
+    //   projectFirestore
+    //     .collection("chats")
+    //     .doc(combinedId)
+    //     .get()
+    //     .then((doc) => {
+    //       if (!doc.exists || doc.exists) {
+    //         projectFirestore.collection("chats").doc(combinedId).set({
+    //           messages: [],
+    //         });
+    //       }
+    //     });
+    // } catch (error) {
+    //   console.log(error);
+    // }
     try {
-      projectFirestore
+      await projectFirestore
         .collection("chats")
         .doc(combinedId)
-        .get()
-        .then((doc) => {
-          if (!doc.exists || doc.exists) {
-            projectFirestore
-              .collection("chats")
-              .doc(combinedId)
-              .collection("messages")
-              .doc(uuid())
-              .set({
-                messages: {
-                  description,
-                  senderId: userId,
-                  img: imgUrl,
-                },
-              });
-          }
+        .set({
+          messages: firebase.firestore.FieldValue.arrayUnion({
+            id: uuid(),
+            description: description,
+            senderId: userId,
+            img: imgUrl,
+            date: firebase.firestore.Timestamp.now(),
+          }),
         });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
   useEffect(() => {
