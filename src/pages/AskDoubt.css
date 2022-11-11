@@ -5,3 +5,8 @@
   position: absolute;
   left: 50%;
 }
+
+.alingn {
+  display: inline-flex;
+  justify-content: center;
+}

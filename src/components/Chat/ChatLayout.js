@@ -6,10 +6,15 @@ import InputMessage from "./InputMessage";
 import { useHistory } from "react-router-dom";
 import { projectFirestore } from "../../misc/firebase";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useChats } from "../../hooks/useChats";
+import { useDoubt } from "../../hooks/useDoubt";
 
 const ChatLayout = () => {
-  const [cats, setChats] = useState([]);
+  const [chats, setChats] = useState([]);
   const [showChat, setShowChat] = useState(true);
+
+  const chatData = useChats();
+  const initialData = useDoubt();
 
   let history = useHistory();
 
@@ -39,7 +44,7 @@ const ChatLayout = () => {
                   }}
                 />
               </span>
-              <span>Operating System</span>
+              <span>{initialData[0].title}</span>
             </div>
             <Messages />
             <InputMessage />

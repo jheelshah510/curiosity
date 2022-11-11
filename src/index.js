@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthContextProvider } from "./context/AuthContext";
 import { FieldsProvider } from "./context/FieldsContext";
 import { DoubtProvider } from "./context/DoubtContext";
+import { ChatProvider } from "./context/ChatsContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +15,9 @@ root.render(
     <AuthContextProvider>
       <FieldsProvider>
         <DoubtProvider>
-          <App />
+          <ChatProvider>
+            <App />
+          </ChatProvider>
         </DoubtProvider>
       </FieldsProvider>
     </AuthContextProvider>

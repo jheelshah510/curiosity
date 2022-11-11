@@ -6,8 +6,9 @@ import ImageIcon from "@mui/icons-material/Image";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import { projectFirestore } from "../../misc/firebase";
 import { storage } from "../../misc/firebase";
-import { v4 } from "uuid";
+import { v4 as uuid } from "uuid";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import firebase from "firebase";
 
 const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
   const [title, setTitle] = useState(null);
@@ -17,7 +18,7 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
 
   const uploadImage = () => {
     if (imageUpload == null) return;
-    var path = `images/${imageUpload.name + v4()}`;
+    var path = `images/${imageUpload.name + uuid()}`;
     var storageRef = storage.ref();
     var spaceRef = storageRef.child(path);
     spaceRef.put(imageUpload).then((snapshot) => {
@@ -28,6 +29,7 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
         .then(function (url) {
           var imgUrl = url;
           handleSubmit(imgUrl);
+          handleSelect(imgUrl);
         })
         .catch(function (err) {
           console.log(err);
@@ -56,7 +58,7 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
     }
   };
 
-  const handleSelect = async () => {
+  const handleSelect = async (imgUrl) => {
     const combinedId =
       userId > teachCode ? userId + teachCode : teachCode + userId;
 
@@ -66,10 +68,19 @@ const AskQuery = ({ handleClose, fieldId, tempoCode }) => {
         .doc(combinedId)
         .get()
         .then((doc) => {
-          if (!doc.exists) {
-            projectFirestore.collection("chats").doc(combinedId).set({
-              messages: [],
-            });
+          if (!doc.exists || doc.exists) {
+            projectFirestore
+              .collection("chats")
+              .doc(combinedId)
+              .collection("messages")
+              .doc(uuid())
+              .set({
+                messages: {
+                  description,
+                  senderId: userId,
+                  img: imgUrl,
+                },
+              });
           }
         });
     } catch (error) {

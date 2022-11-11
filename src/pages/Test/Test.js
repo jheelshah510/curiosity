@@ -5,12 +5,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./Test.css";
 import { projectFirestore } from "../../misc/firebase";
-import { Button } from "@mui/material";
+import { Button, Divider, IconButton, InputBase, Paper } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+
 import { useDoubt } from "../../hooks/useDoubt";
 // import { useParams } from "react-router-dom";
-
+import { useChats } from "../../hooks/useChats";
 const Test = () => {
   const initialData = useDoubt();
+  const chatData = useChats();
   // const [doubts, setDoubts] = useState();
   // const { id } = useParams;
 
@@ -49,7 +52,11 @@ const Test = () => {
   // }, []);
 
   const handleClick = () => {
-    console.log(initialData[0].id);
+    console.log(chatData);
+  };
+
+  const handleSelect = () => {
+    console.log(initialData[0].combined);
   };
 
   return (
@@ -84,8 +91,34 @@ const Test = () => {
           handleClick();
         }}
       >
-        Baby
+        chats
       </Button>
+      <Button
+        onClick={() => {
+          handleSelect();
+        }}
+      >
+        doubt
+      </Button>
+      <Paper
+        component="form"
+        sx={{
+          p: "2px 4px",
+          display: "flex",
+          alignItems: "center",
+          width: 400,
+        }}
+        variant="outlined"
+      >
+        <InputBase
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Search Google Maps"
+          inputProps={{ "aria-label": "search google maps" }}
+        />
+        <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+          <SearchIcon />
+        </IconButton>
+      </Paper>
     </div>
   );
 };

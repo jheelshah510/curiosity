@@ -13,7 +13,6 @@ import ChatLayout from "./components/Chat/ChatLayout";
 import Pending from "./pages/Pending";
 import Previous from "./pages/Previous";
 import Solved from "./pages/Solved";
-import { ChatContextProvider } from "./context/ChatsContext";
 import Test from "./pages/Test/Test";
 
 function App() {
@@ -78,10 +77,7 @@ function App() {
             {!user && <Redirect to="/" />}
             {user && <Solved />}
           </Route>
-          <Route exact path="/temp">
-            {!user && <Redirect to="/" />}
-            {user && <ChatContextProvider />}
-          </Route>
+
           <Route exact path="/tip">
             {!user && <Redirect to="/" />}
             {user && <Test />}
