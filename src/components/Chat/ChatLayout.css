@@ -65,7 +65,7 @@
 .message {
   background-color: #ddddf7;
   padding: 10px;
-  height: calc(100% - 160px);
+  /* height: calc(100% - 200px); */
   display: flex;
   gap: 20px;
 }

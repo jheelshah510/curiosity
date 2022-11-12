@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 import "./ChatLayout.css";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
-import { useChats } from "../../hooks/useChats";
 import { useDoubt } from "../../hooks/useDoubt";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { projectFirestore, storage } from "../../misc/firebase";
 import firebase from "firebase";
 import { v4 as uuid } from "uuid";
-import { Button } from "@mui/material";
 
 const InputMessage = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
 
   const user = useAuthContext();
-  const chatData = useChats();
+  // console.log("USER OBJECT:", user);
   const initialData = useDoubt();
-  const userId = user.uid;
+  const userId = user.user.uid;
+  const senderName = user.user.displayName;
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (image) {
       var path = `images/${image.name + uuid()}`;
       var storageRef = storage.ref();
@@ -36,21 +35,21 @@ const InputMessage = () => {
               .update({
                 messages: firebase.firestore.FieldValue.arrayUnion({
                   id: uuid(),
-                  description,
+                  description: description,
                   senderId: userId,
                   img: imgUrl,
                   date: firebase.firestore.Timestamp.now(),
                 }),
               });
+            setImage(null);
           })
-
           .catch(function (err) {
             console.log(err);
           });
       });
     } else {
       try {
-        projectFirestore
+        await projectFirestore
           .collection("chats")
           .doc(initialData[0].combined)
           .update({
@@ -58,10 +57,17 @@ const InputMessage = () => {
               id: uuid(),
               description: description,
               senderId: userId,
+              senderName: senderName,
               date: firebase.firestore.Timestamp.now(),
             }),
           });
       } catch (error) {
+        console.log(
+          "DATA in INPUTMSG: ",
+          description,
+          userId,
+          firebase.firestore.Timestamp.now()
+        );
         console.log(description);
         console.log(error);
       }
